@@ -1,0 +1,39 @@
+<html>
+  <head><title>OpenLayers Vector Linestring Example</title></head>
+  <body>
+  <div id="mapdiv"></div>
+  <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+  <script>
+  
+    map = new OpenLayers.Map("mapdiv");
+    map.addLayer(new OpenLayers.Layer.OSM());
+    
+    epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
+    projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
+   
+    var lonLat = new OpenLayers.LonLat(-0.12, 51.503 ).transform(epsg4326, projectTo);
+    
+    var zoom=16;
+    map.setCenter (lonLat, zoom);
+
+    var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+    
+    //Line from Nelson's Column, to London Eye, to Big Ben
+    var points = [ 
+        new OpenLayers.Geometry.Point( -0.1279688, 51.5077286 ).transform(epsg4326, projectTo),
+        new OpenLayers.Geometry.Point( -0.119623, 51.503308  ).transform(epsg4326, projectTo),
+        new OpenLayers.Geometry.Point( -0.1244324, 51.5006728  ).transform(epsg4326, projectTo)
+    ];
+    
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.LineString(points)
+    );
+ 
+    
+    vectorLayer.addFeatures(feature);
+
+    map.addLayer(vectorLayer);
+  </script>
+  
+</body></html>
+    
